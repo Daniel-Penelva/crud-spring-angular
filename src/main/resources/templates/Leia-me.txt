@@ -1,0 +1,65 @@
+JpaRepository
+
+A interface `JpaRepository` é uma parte fundamental do Spring Data JPA, que fornece uma abstração de alto nível para realizar operações de 
+acesso a dados em bancos de dados relacionais usando a JPA (Java Persistence API). Ela estende a interface `PagingAndSortingRepository` e, 
+portanto, herda todos os métodos para operações de CRUD (criação, leitura, atualização e exclusão), além de recursos adicionais.
+
+Aqui estão alguns dos métodos mais comuns fornecidos pela interface `JpaRepository`:
+
+1. `save(entity)`: Salva uma entidade no banco de dados. Se a entidade já existe (com base na chave primária), ela é atualizada; caso contrário, é inserida como um novo registro.
+
+2. `findById(id)`: Busca uma entidade pelo seu identificador (chave primária).
+
+3. `findAll()`: Retorna todas as entidades do tipo especificado.
+
+4. `findAllById(ids)`: Retorna todas as entidades cujos identificadores estão presentes na lista de IDs fornecida.
+
+5. `count()`: Retorna o número total de entidades no banco de dados.
+
+6. `delete(entity)`: Exclui a entidade fornecida do banco de dados.
+
+7. `deleteById(id)`: Exclui uma entidade com base no seu identificador.
+
+8. `deleteAll()`: Exclui todas as entidades do tipo especificado.
+
+9. `flush()`: Sincroniza o contexto de persistência com o banco de dados, garantindo que todas as alterações pendentes sejam efetivadas.
+
+10. `existsById(id)`: Verifica se uma entidade com o identificador fornecido existe no banco de dados.
+
+11. `...`: Além desses métodos, a interface `JpaRepository` herda os métodos de paginação e ordenação da interface `PagingAndSortingRepository`, permitindo a paginação e ordenação dos resultados das consultas.
+
+A interface `JpaRepository` é um componente essencial no ecossistema do Spring Data JPA, facilitando o acesso a dados por meio de operações de 
+alto nível e abstraindo muitas das complexidades do trabalho com a JPA. Ao criar uma interface que estende `JpaRepository`, você pode criar 
+automaticamente um repositório com todas as operações de CRUD necessárias, além de se beneficiar da resolução automática de consultas baseadas 
+em nome e da capacidade de personalizar consultas JPA com facilidade. Isso reduz a quantidade de código boilerplate que você precisa escrever ao 
+lidar com operações de banco de dados.
+
+No momento que extends JpaRepository<Long, Course> o Spring vai criar uma implementação dessa interface que já tem os métodos automaticamente
+para poder manipular. Ou seja, Agora, quando você cria uma interface de repositório como essa e a configura adequadamente (como definir a 
+anotação @Repository ou usar a varredura automática de componentes), o Spring Data JPA fornecerá automaticamente a implementação dos métodos 
+CRUD e outras funcionalidades, permitindo que você acesse e manipule dados da entidade Course no banco de dados de forma conveniente e eficiente.
+
+----------------------------------------------------------------------- // -----------------------------------------------------------------------
+
+O import lombok.Data; é uma importação de uma anotação do projeto Lombok, uma biblioteca Java que ajuda a reduzir a verbosidade do código, 
+principalmente em classes de modelo, eliminando a necessidade de escrever métodos getters, setters, construtores e outros métodos comuns. A 
+anotação @Data é uma das anotações mais utilizadas do Lombok e é frequentemente usada para simplificar a criação de classes de modelo.
+
+Ao usar a anotação @Data, o Lombok gera automaticamente os métodos básicos comuns, como getters, setters, toString, equals e hashCode, com base
+nos campos da classe. Isso reduz a quantidade de código repetitivo que você precisa escrever, tornando o código mais limpo e conciso.
+
+No entanto, é importante mencionar que, embora o Lombok seja uma ferramenta poderosa para reduzir a verbosidade do código, você deve usá-lo com 
+cautela. Alguns desenvolvedores preferem escrever os métodos manualmente para ter mais controle sobre como esses métodos são implementados e 
+para evitar dependências externas em seus projetos.
+
+Certifique-se de adicionar a dependência do Lombok em seu projeto (geralmente no arquivo build.gradle ou pom.xml, dependendo da ferramenta de 
+construção que você está usando) e configure sua IDE para reconhecer as anotações do Lombok, para que você possa aproveitar os benefícios dessa
+biblioteca.
+
+Biblioteca Maven:
+<dependency>
+	<groupId>org.projectlombok</groupId>
+	<artifactId>lombok</artifactId>
+	<optional>true</optional>
+</dependency>
+
