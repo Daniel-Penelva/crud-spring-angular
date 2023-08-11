@@ -63,3 +63,44 @@ Biblioteca Maven:
 	<optional>true</optional>
 </dependency>
 
+----------------------------------------------------------------------- // -----------------------------------------------------------------------
+
+IMPORTANTE!!!!!!!!!
+
+Para resolver o problema do cors vamos criar um proxy no Angular, o objetivo é fazer com que esse proxy funcione como se estivesse fazendo uma 
+chamada para o mesmo domínio, não importado que o dominio do back-end (API Spring) e do meu front-end (Angular) sejam diferentes, ou seja, o uso 
+do proxy vai fazer com que tenha uma chamada do meu back-end para o meu front-end e vice-versa. Então, vamos criar um arquivo 'proxy.conf.js' na
+raiz do projeto.
+Também vamos adicionar o package.json vamos fazer a seguinte modificação na propriedade start: 
+"start": "ng serve --proxy-config proxy.conf.js"
+Essa modificação tem como objetivo que quando o ng serve for gerada vai ser utilizado o proxy. Portanto, sempre que for usar o ng serve, agora teremos 
+que utilizar o comando 'npm run start' para que possamos sempre utilizar esse proxy.
+
+---------- // ----------
+Vamos utilizar 'fasterXML' que possui uma biblioteca 'jackson' para fazer o parciamento entre os parâmetros do objeto Curso para Json e vice-versa. Vale ressaltar que a propriedade id
+definida no front-end (Angular) está definida da seguinte maneira: _id. Já na nossa API Spring Boot a propriedade está definida como 'id'. Logo, 
+repare que as propriedades estão nomeadas de forma diferente, e para resolver isso utilizaremos como foi dito a biblioteca 'jackson'. Essa 
+anotação é o @JsonProperty, ela fornecida pela biblioteca Jackson, que é amplamente utilizada para trabalhar com JSON em aplicações Java. Essa 
+anotação permite personalizar o mapeamento entre nomes de propriedades de uma classe Java e nomes de campos correspondentes em JSON.
+
+No caso:
+ @JsonProperty("_id")
+ private String id;
+
+Neste exemplo, a propriedade id na classe Person é mapeada para a chave _id no JSON. Isso significa que, ao serializar um objeto Person em JSON, 
+a chave _id será usada no JSON resultante. Da mesma forma, ao desserializar JSON para um objeto Person, o Jackson procurará a chave _id no JSON 
+e mapeará seu valor para a propriedade id na classe Java.
+A anotação @JsonProperty é especialmente útil quando você precisa trabalhar com APIs RESTful ou outras fontes de dados JSON que usam nomes de 
+chaves diferentes daqueles usados em suas classes de modelo Java. Ela ajuda a manter um mapeamento preciso e permite que você tenha um controle
+mais granular sobre a serialização e desserialização de dados JSON.
+
+Quando você serializa um objeto Java para JSON ou desserializa JSON para um objeto Java usando o Jackson, os nomes das propriedades na classe Java nem sempre precisam ser idênticos aos nomes das chaves nos objetos JSON. A anotação @JsonProperty permite especificar explicitamente o nome da chave JSON correspondente a uma propriedade específica na classe Java.
+
+E vamos  utilizar a anotação '@ResponseBody é uma anotação fornecida pelo Spring Framework em aplicações Spring MVC que indica que o valor 
+retornado por um método de controlador deve ser serializado e incluído diretamente na resposta HTTP como corpo (body) da resposta. Ela é usada 
+para indicar que um método de controlador deve retornar o corpo da resposta em vez de redirecionar para uma visualização (view).
+Quando você adiciona a anotação @ResponseBody a um método de controlador, o Spring MVC assume que o valor retornado deve ser convertido em um 
+formato apropriado, como JSON, XML ou outros, dependendo da configuração da aplicação e do cabeçalho Accept da solicitação HTTP.
+
+A anotação @ResponseBody é frequentemente usada em conjunto com a anotação @RestController, que combina a funcionalidade de @Controller e 
+@ResponseBody, permitindo que você crie facilmente APIs RESTful em sua aplicação Spring.
