@@ -76,6 +76,9 @@ Também vamos adicionar o package.json vamos fazer a seguinte modificação na p
 Essa modificação tem como objetivo que quando o ng serve for gerada vai ser utilizado o proxy. Portanto, sempre que for usar o ng serve, agora teremos 
 que utilizar o comando 'npm run start' para que possamos sempre utilizar esse proxy.
 
+Vale ressaltar como estamos utilizando um proxy para resolver os  problemas que viriam com o cors o servidor agora irá ser executado com o 
+comando: npm run start (na parte do Angular).
+
 ---------- // ----------
 Vamos utilizar 'fasterXML' que possui uma biblioteca 'jackson' para fazer o parciamento entre os parâmetros do objeto Curso para Json e vice-versa. Vale ressaltar que a propriedade id
 definida no front-end (Angular) está definida da seguinte maneira: _id. Já na nossa API Spring Boot a propriedade está definida como 'id'. Logo, 
@@ -104,3 +107,4 @@ formato apropriado, como JSON, XML ou outros, dependendo da configuração da ap
 
 A anotação @ResponseBody é frequentemente usada em conjunto com a anotação @RestController, que combina a funcionalidade de @Controller e 
 @ResponseBody, permitindo que você crie facilmente APIs RESTful em sua aplicação Spring.
+
