@@ -108,3 +108,35 @@ formato apropriado, como JSON, XML ou outros, dependendo da configuração da ap
 A anotação @ResponseBody é frequentemente usada em conjunto com a anotação @RestController, que combina a funcionalidade de @Controller e 
 @ResponseBody, permitindo que você crie facilmente APIs RESTful em sua aplicação Spring.
 
+----------------------------------------------------------------------- // -----------------------------------------------------------------------
+
+No método HTTP DELETE além de poder declarar o tipo Void, também podemos declarar o tipo Object e ? (espera qualquer tipo). 
+
+Podemos fazer assim:
+
+@DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Long id){
+        return courseRepository.findById(id)
+            .map(recordFound -> {
+                courseRepository.deleteById(id);
+                return ResponseEntity.noContent().build();
+            })
+            .orElse(ResponseEntity.notFound().build());
+}
+
+ou, podemos fazer assim:
+
+	@DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        return courseRepository.findById(id)
+            .map(recordFound -> {
+                courseRepository.deleteById(id);
+                return ResponseEntity.noContent().build();
+            })
+            .orElse(ResponseEntity.notFound().build());
+    }
+
+
+
+
+

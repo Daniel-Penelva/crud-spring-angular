@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -144,6 +145,47 @@ public class CourseController {
                 recordFound.setCategory(course.getCategory());
                 Course update = courseRepository.save(recordFound);
                 return ResponseEntity.ok().body(update);
+            })
+            .orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
+     * Deletar curso por id - http://localhost:8080/api/courses/{id}
+     * Explicando passo a passo do código:
+     * 
+     * 1. `@DeleteMapping("/{id}")`: Esta é a anotação que mapeia a solicitação HTTP DELETE para este método. Ela indica que esse método será 
+     * invocado quando uma solicitação DELETE for feita para um endpoint com um parâmetro de caminho (`id`). Isso significa que o método espera 
+     * receber um `id` como parte da URL.
+     * 
+     * 2. `public ResponseEntity<Void> delete(@PathVariable Long id)`: Este é o cabeçalho do método `delete`. Ele recebe um parâmetro `id` como 
+     * um valor de caminho usando a anotação `@PathVariable`. O tipo de retorno do método é `ResponseEntity<Void>`, o que significa que este 
+     * método retornará uma resposta HTTP. Neste caso, `Void` indica que não há corpo de resposta.
+     * 
+     * 3. `courseRepository.findById(id)`: Este trecho de código chama o método `findById` em um objeto `courseRepository`. O objetivo é tentar 
+     * encontrar um registro com o `id` especificado no banco de dados.
+     * 
+     * 4. `.map(recordFound -> { ... })`: O método `map` é usado para processar o valor retornado pelo `findById`. Se o `findById` encontrar um 
+     * registro com o `id` especificado, o código dentro desse bloco será executado.
+     * 
+     *      - `courseRepository.deleteById(id);`: Este comando exclui o registro com o `id` especificado do banco de dados usando o método 
+     *        `deleteById` no `courseRepository`.
+     * 
+     *      - `return ResponseEntity.noContent().<Void>build();`: Após a exclusão bem-sucedida, o método retorna uma resposta HTTP com status 
+     *         `204 No Content`. Isso indica que a solicitação foi processada com sucesso, mas não há conteúdo para retornar.
+     * 
+     * 5. `.orElse(ResponseEntity.notFound().build())`: Se o `findById` não encontrar um registro com o `id` especificado, o método `.orElse` 
+     * será executado. Ele retorna uma resposta HTTP com status `404 Not Found`, indicando que o recurso não foi encontrado.
+     * 
+     * Em resumo, este método lida com solicitações de exclusão para um recurso identificado por um `id` específico. Se o registro com o `id` 
+     * for encontrado no banco de dados, ele será excluído, e uma resposta HTTP 204 No Content será retornada. Se o registro não for encontrado, 
+     * uma resposta HTTP 404 Not Found será retornada.
+    */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        return courseRepository.findById(id)
+            .map(recordFound -> {
+                courseRepository.deleteById(id);
+                return ResponseEntity.noContent().<Void>build();
             })
             .orElse(ResponseEntity.notFound().build());
     }
