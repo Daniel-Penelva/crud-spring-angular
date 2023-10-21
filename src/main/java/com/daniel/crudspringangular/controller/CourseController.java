@@ -3,8 +3,13 @@ package com.daniel.crudspringangular.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +26,7 @@ import com.daniel.crudspringangular.repository.CourseRepository;
 
 import lombok.AllArgsConstructor;
 
-
+@Validated
 @RestController
 @RequestMapping("/api/courses")
 @AllArgsConstructor
@@ -51,7 +56,7 @@ public class CourseController {
     // @RequestMapping(method = RequestMethod.POST)
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Course create(@RequestBody Course course){
+    public Course create(@RequestBody @Valid Course course){
        
        return courseRepository.save(course);
     }
@@ -88,7 +93,7 @@ public class CourseController {
      * é retornada com um código de status 404.
     */
     @GetMapping("/{id}")
-    public ResponseEntity<Course> findById(@PathVariable Long id){
+    public ResponseEntity<Course> findById(@PathVariable @NotNull @Positive Long id){
         return courseRepository.findById(id)
             .map(recordFound -> ResponseEntity.ok().body(recordFound))
             .orElse(ResponseEntity.notFound().build());
@@ -138,7 +143,7 @@ public class CourseController {
      * resposta de "Not Found" é retornada.
     */
     @PutMapping("/{id}")
-    public ResponseEntity<Course> update(@PathVariable Long id, @RequestBody Course course){
+    public ResponseEntity<Course> update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Course course){
         return courseRepository.findById(id)
             .map(recordFound -> {
                 recordFound.setName(course.getName());
@@ -181,7 +186,7 @@ public class CourseController {
      * uma resposta HTTP 404 Not Found será retornada.
     */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id){
         return courseRepository.findById(id)
             .map(recordFound -> {
                 courseRepository.deleteById(id);

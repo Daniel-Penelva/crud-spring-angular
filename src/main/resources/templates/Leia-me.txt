@@ -136,7 +136,97 @@ ou, podemos fazer assim:
             .orElse(ResponseEntity.notFound().build());
     }
 
+----------------------------------------------------------------------- // -----------------------------------------------------------------------
 
+Validações da API com Java Bean Validation
 
+Exemplos da documentação Bean Validation:
+Link: https://docs.jboss.org/hibernate/beanvalidation/spec/2.0/api/
+
+As anotações `@Validated` e `@Valid` são usadas em aplicações Spring Framework, que é um framework para o desenvolvimento de aplicativos Java, 
+para validar os dados de entrada de formulários ou objetos antes de processá-los. No entanto, elas têm usos e escopos ligeiramente diferentes. 
+
+Explicando cada uma delas:
+
+1. @Validated:
+
+   - `@Validated` é uma anotação específica do Spring, usada para indicar que uma classe ou método deve ser validado. Pode ser aplicada a nível 
+      de classe ou a nível de método. Quando você usa `@Validated` em uma classe ou método, o Spring ativa a validação para os argumentos e 
+      parâmetros do método e qualquer objeto aninhado.
+
+   - Você pode personalizar a validação em classes marcadas com `@Validated` usando grupos de validação e especificar quais grupos de validação 
+     devem ser aplicados.
+
+   - `@Validated` é frequentemente usado em métodos de controladores do Spring (controladores MVC) para validar dados de entrada de formulários 
+      antes de processá-los.
+
+   Exemplo:
+
+   ```java
+   @RestController
+   public class UserController {
+       @PostMapping("/users")
+       public ResponseEntity<User> createUser(@Validated @RequestBody User user) {
+           // ...
+       }
+   }
+   ```
+
+   Neste exemplo, `@Validated` é usado para validar o objeto `User` que é enviado como parte da solicitação HTTP antes de processá-lo.
+
+2. @Valid:
+
+   - `@Valid` é uma anotação padrão do Java e é usada em conjunto com `@RequestBody` ou `@ModelAttribute` em métodos de controladores do Spring 
+      para indicar que o objeto sendo passado como parâmetro deve ser validado.
+
+   - Quando `@Valid` é aplicado a um parâmetro, o Spring ativa a validação do objeto especificado pelo Bean Validation (geralmente usando 
+     anotações como `@NotNull`, `@Size`, `@Pattern`, etc.) antes de processar a solicitação.
+
+   Exemplo:
+
+   ```java
+   @RestController
+   public class UserController {
+       @PostMapping("/users")
+       public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
+           // ...
+       }
+   }
+   ```
+
+   Neste exemplo, `@Valid` é usado para validar o objeto `User` antes de processar a solicitação HTTP.
+
+Ambas as anotações, `@Validated` e `@Valid`, têm o objetivo de garantir que os dados de entrada estejam em conformidade com as regras de 
+validação especificadas antes de serem processados pelo controlador do Spring. A principal diferença está na forma como são usadas e nas 
+personalizações que podem ser aplicadas com `@Validated`. Em ambos os casos, as violações das regras de validação podem resultar em exceções, 
+que podem ser manipuladas e tratadas adequadamente no código do controlador.
+
+--------------- // ---------------
+
+Anotação `@Pattern`
+
+A anotação `@Pattern` é uma anotação usada em muitos frameworks Java, como o Spring Framework, para aplicar validações a campos de uma classe ou 
+objeto. Ela é usada para garantir que um determinado campo contenha um valor que corresponda a um padrão regular expresso.
+
+```java
+@Pattern(regexp = "Back-end|Front-end")
+```
+
+Essa anotação está sendo aplicada no campo category e especifica que o valor desse campo deve corresponder a uma das duas opções: "Back-end" ou 
+"Front-end". O `regexp` (expressão regular) define o padrão ao qual o valor do campo deve corresponder. No entanto, em vez de usar uma expressão 
+regular complexa, esta anotação simplesmente verifica se o valor é uma das duas strings fornecidas.
+
+OBS. Vale ressaltar que o valor "Back-end" ou "Front-end" possui sensitivity-case, ou seja, tem que ser escrito da mesma maneira, senão o Validated
+não vai validar o valor.
+
+Isso significa que, se o campo for uma String, ele só será válido se conter "Back-end" ou "Front-end". Qualquer outra entrada não será 
+considerada válida. Por exemplo:
+
+- Se o campo tiver o valor "Back-end", a validação será bem-sucedida.
+- Se o campo tiver o valor "Front-end", a validação também será bem-sucedida.
+- Se o campo tiver qualquer outro valor, a validação falhará.
+
+Essa anotação é útil para garantir que os dados inseridos ou enviados atendam a critérios específicos e é frequentemente usada para validar campos 
+em formulários ou objetos de transferência de dados. Ela ajuda a garantir a integridade dos dados que entram no sistema.
 
 
