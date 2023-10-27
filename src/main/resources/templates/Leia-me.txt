@@ -229,4 +229,96 @@ considerada válida. Por exemplo:
 Essa anotação é útil para garantir que os dados inseridos ou enviados atendam a critérios específicos e é frequentemente usada para validar campos 
 em formulários ou objetos de transferência de dados. Ela ajuda a garantir a integridade dos dados que entram no sistema.
 
+----------------------------------------------------------------------- // -----------------------------------------------------------------------
+
+Soft Delete (Remoção Lógica)
+
+O conceito de "Soft Delete" ou "Remoção Lógica" é uma técnica comum no desenvolvimento de software para gerenciar registros de dados de forma a 
+permitir a recuperação de itens excluídos, em oposição à exclusão física, onde os registros são permanentemente removidos do banco de dados. 
+
+Pontos importantes sobre o Soft Delete:
+
+1.O que é Soft Delete?
+   O Soft Delete é uma abordagem que envolve adicionar um campo adicional a uma tabela de banco de dados, geralmente chamado de "deleted_at" ou
+   "status" ou algo semelhante, que armazena a data e hora em que um registro foi marcado como excluído. Em vez de remover fisicamente o registro, 
+   você apenas atualiza esse campo para indicar que o registro está inativo.
+
+2.Vantagens do Soft Delete:
+   - Recuperação de dados: A principal vantagem do Soft Delete é a capacidade de recuperar dados excluídos acidentalmente ou intencionalmente. 
+     Isso pode ser útil em situações em que você precisa manter um histórico de alterações ou atender a requisitos regulatórios.
+
+   - Auditoria e rastreamento: O Soft Delete permite rastrear quem e quando um registro foi excluído, o que pode ser útil para fins de auditoria 
+     e responsabilização.
+
+   - Migrações de dados mais seguras: Quando você precisa fazer alterações em seu esquema de banco de dados, o Soft Delete simplifica o processo, 
+     pois você não precisa se preocupar em migrar dados excluídos.
+
+3. Desvantagens do Soft Delete:
+   - Consumo de espaço em disco: Os registros marcados como excluídos ainda ocupam espaço no banco de dados, o que pode ser uma preocupação se 
+     você estiver lidando com uma grande quantidade de dados.
+
+   - Complexidade: Implementar o Soft Delete pode adicionar complexidade ao seu código, uma vez que você deve sempre levar em consideração os 
+     registros marcados como excluídos em suas consultas.
+
+4. Exemplos de implementação:
+   A implementação do Soft Delete varia dependendo do sistema de gerenciamento de banco de dados (DBMS) que você está usando e da linguagem de 
+   programação. Aqui está um exemplo simples usando SQL:
+
+   ```sql
+   -- Tabela de exemplo
+   CREATE TABLE users (
+       id INT PRIMARY KEY,
+       username VARCHAR(50),
+       deleted_at DATETIME
+   );
+
+   -- Marcar um registro como excluído
+   UPDATE users SET deleted_at = NOW() WHERE id = 1;
+
+   -- Recuperar registros excluídos
+   SELECT * FROM users WHERE deleted_at IS NOT NULL;
+
+   -- Restaurar um registro excluído
+   UPDATE users SET deleted_at = NULL WHERE id = 1;
+   ```
+
+Em resumo, o Soft Delete é uma abordagem valiosa para gerenciar registros de dados de forma que você possa manter um histórico de alterações e 
+recuperar dados excluídos quando necessário. No entanto, é importante considerar cuidadosamente os prós e contras e decidir se é apropriado para 
+o seu caso de uso específico.
+
+
+No meu exemplo, a tabela curso existe um campo status que pode ser definido como Ativo ou Inativo. O status Ativo significa que o registro não 
+sofreu um Soft Delete, já o status Inativo significa que o registro sofreu um Soft Delete. Ou seja, digamos que o usuário remova o curso CSS e 
+ao ir no banco de dados vai ser visualizado que o registro NÃO FOI REMOVIDO DO BANCO DE DADOS, o conceito Soft Delete garante que o registro 
+permaneça persistido no banco, porém o campo status vai estar com o valor Inativo, o que significa que registrou que esse curso foi 
+marcado como excluído. E essa funcionalidade é feita de uma forma bem simples, utilizando a anotação @SqlDelete do Hibernate.
+
+A anotação `@SQLDelete` é um recurso comum em frameworks de mapeamento objeto-relacional (ORM), como o Hibernate, que é usado para personalizar 
+a instrução SQL usada para realizar uma exclusão lógica (Soft Delete) em um registro de banco de dados.
+
+A anotação `@SQLDelete` permite que substitua a instrução SQL padrão usada pelo ORM para marcar um registro como excluído (inativo) quando o 
+método de exclusão é chamado. No meu exemplo, a anotação `@SQLDelete` está sendo usada para especificar a instrução SQL personalizada que será 
+executada quando um registro da entidade "Course" for marcado como "Inativo."
+
+Explicação mais detalhada do exemplo:
+
+```java
+@SQLDelete(sql = "UPDATE Course SET status = 'Inativo' WHERE id = ?")
+```
+
+- `@SQLDelete` é a anotação que indica que a instrução SQL personalizada está sendo definida.
+
+- `sql` é o atributo dentro da anotação `@SQLDelete` que permite especificar a instrução SQL personalizada que será executada quando um registro 
+   da entidade for excluído logicamente.
+
+- A instrução SQL personalizada especificada no exemplo é um comando `UPDATE`. Ele define que, em vez de excluir fisicamente o registro da 
+  tabela "Course," o status desse registro será definido como "Inativo." O `?` na instrução SQL é um espaço reservado para o ID do curso que está 
+  sendo excluído. Isso permite que o ORM insira o valor correto do ID ao executar a operação de exclusão lógica.
+
+Com essa configuração, quando chamar o método de exclusão para um objeto da classe "Course," o ORM usará essa instrução SQL personalizada para 
+marcar o registro como "Inativo" em vez de excluí-lo fisicamente do banco de dados.
+
+Essa é uma maneira poderosa de personalizar o comportamento de exclusão lógica em um ORM e ajustá-lo de acordo com os requisitos específicos do 
+aplicativo, como definir um status de exclusão ou manter um histórico de alterações em registros excluídos.
+
 
