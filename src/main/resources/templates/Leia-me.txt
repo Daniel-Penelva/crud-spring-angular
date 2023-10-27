@@ -321,4 +321,38 @@ marcar o registro como "Inativo" em vez de excluí-lo fisicamente do banco de da
 Essa é uma maneira poderosa de personalizar o comportamento de exclusão lógica em um ORM e ajustá-lo de acordo com os requisitos específicos do 
 aplicativo, como definir um status de exclusão ou manter um histórico de alterações em registros excluídos.
 
+--------------- // ---------------
+
+Bom Saber: Que tal um requisito proposto. Agora se buscarmos os registros de cursos vai ser listado todos os registros de cursos seja ele o ativo 
+ou inativo, e no caso, não queremos buscar os cursos que estejam com o status de inativo, logo precisaremos filtar os registro que estejam inativos.
+Para fazer esse filtro vai ser utilizado a anotação @Where que terá como funcionalidade a seguinte função, toda vez que for feito o select no 
+banco de dados, o Hibernate automaticamente irá adicionar o filtro <clause = "status = 'Ativo'"> na cláusula Where.
+
+A anotação `@Where` é uma anotação usada em frameworks de mapeamento objeto-relacional (ORM), como o Hibernate, para definir uma cláusula de 
+restrição (filtro) que afeta todas as consultas feitas em uma entidade específica. No exemplo que eu forneci, a anotação `@Where` está sendo 
+usada para filtrar automaticamente registros com o status "Ativo" sempre que uma consulta for realizada na entidade à qual a anotação é aplicada.
+
+Explicação mais detalhada:
+
+```java
+@Where(clause = "status = 'Ativo'")
+```
+
+- `@Where` é a anotação usada para definir a cláusula de restrição (filtro) que será aplicada a todas as consultas realizadas na entidade 
+  associada.
+
+- `clause` é o atributo da anotação `@Where` onde especifica a condição que será aplicada como filtro. No exemplo, a condição é "status = 'Ativo'". 
+   Isso significa que, sempre que uma consulta for feita na entidade que possui essa anotação, apenas os registros com o status igual a "Ativo" 
+   serão retornados.
+
+Essa anotação é útil quando deseja garantir que apenas registros ativos sejam retornados em todas as consultas sem a necessidade de especificar 
+a cláusula `WHERE` manualmente em todas as consultas. Ela simplifica o código e ajuda a manter a consistência nos resultados retornados.
+
+É importante observar que a anotação `@Where` é eficaz apenas quando consultas são feitas por meio do ORM que oferece suporte a essa 
+funcionalidade, como o Hibernate. Ela não afeta consultas SQL feitas diretamente no banco de dados sem o uso do ORM.
+
+Em resumo, a anotação `@Where` é uma maneira conveniente de definir automaticamente um filtro para registros ativos em uma entidade, tornando 
+mais fácil recuperar apenas os dados relevantes em todas as consultas relacionadas a essa entidade.
+
+
 
