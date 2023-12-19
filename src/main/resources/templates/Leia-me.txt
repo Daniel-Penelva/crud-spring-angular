@@ -354,5 +354,56 @@ funcionalidade, como o Hibernate. Ela não afeta consultas SQL feitas diretament
 Em resumo, a anotação `@Where` é uma maneira conveniente de definir automaticamente um filtro para registros ativos em uma entidade, tornando 
 mais fácil recuperar apenas os dados relevantes em todas as consultas relacionadas a essa entidade.
 
+----------------------------------------------------------------------- // -----------------------------------------------------------------------
 
+DTO (Data Transfer Object)
+
+O que é? 
+
+1. Encapsulamento de Dados 
+
+É uma classe que vai representar a informação, a requisição que está vindo por parte do navegador e das respostas que estão vindo da aplicação. 
+Ou seja, ou Data Transfer Object, é um padrão de projeto utilizado no desenvolvimento de software para transferência de dados entre camadas ou 
+componentes de um sistema. O principal objetivo do DTO é encapsular dados e transferi-los de uma parte do sistema para outra, muitas vezes entre 
+a camada de apresentação (frontend) e a camada de serviço (backend) ou vice-versa. Esse padrão visa otimizar a comunicação, reduzir o acoplamento 
+e melhorar a eficiência na transferência de dados.
+
+DTOs são classes que encapsulam dados. Eles geralmente consistem em atributos que representam os dados a serem transferidos. Esses atributos 
+podem ser primitivos, objetos simples ou outros DTOs.
+
+2. Transferência de Dados
+
+Esse padrão também economiza o número de requisição por servidor e para simplificar essa requisição. Ou seja, quando se tem um objeto mais 
+complexo na sua requisição, por exemplo, com vários campos e objetos alinhados, fica mais facil criar um DTO para receber toda as informações 
+de uma só vez e o servidor consome aquela informação e aplica a lógica necessária para poder ler e processar toda aquela informação que está 
+vindo no DTO.
+
+DTOs são projetados para transferir apenas os dados necessários entre camadas do sistema, evitando o envio de informações desnecessárias. Isso 
+pode resultar em uma comunicação mais eficiente, especialmente em ambientes distribuídos.
+
+3. Redução de Acoplamento
+O uso de DTOs ajuda a reduzir o acoplamento entre diferentes partes do sistema. Isso ocorre porque as camadas do sistema não precisam conhecer 
+diretamente a estrutura interna dos objetos uns dos outros. Em vez disso, elas se comunicam por meio de DTOs, que atuam como contratos de 
+comunicação.
+
+4. Adaptação a Requisitos de Exibição
+Em aplicações web, por exemplo, os DTOs podem ser usados para adaptar os dados conforme necessário para a exibição na interface do usuário. Isso 
+permite que a camada de serviço envie apenas os dados relevantes para a interface do usuário, otimizando a largura de banda e melhorando o 
+desempenho.
+
+5. Proteção dos Dados Internos:
+DTOs também ajudam a proteger os dados internos do sistema. Eles permitem que você exponha apenas os dados necessários sem expor a implementação 
+interna ou a estrutura dos objetos.
+
+6. Mapeamento para Entidades do Domínio:
+Em muitos casos, é necessário converter DTOs de ida e volta para as entidades do domínio (por exemplo, entidades JPA). Essa conversão é 
+frequentemente realizada por ferramentas como o MapStruct, que simplifica o processo de mapeamento entre DTOs e entidades.
+
+7. Padrões e Boas Práticas:
+Ao usar DTOs, é importante seguir boas práticas de design e manter o foco nos requisitos específicos do sistema. Evite a tentação de criar DTOs 
+muito genéricos que possam se tornar difíceis de manter.
+
+Em resumo, DTOs são uma ferramenta valiosa para facilitar a transferência eficiente de dados entre diferentes partes de um sistema. Eles 
+promovem uma comunicação mais eficiente, reduzem o acoplamento e permitem adaptações flexíveis às necessidades específicas de cada camada do 
+sistema.
 
