@@ -55,7 +55,7 @@ public class CourseService {
         return courseRepository.findById(id)
                 .map(recordFound -> {
                     recordFound.setName(course.name());
-                    recordFound.setCategory(Category.FRONTEND);
+                    recordFound.setCategory(Category.FRONT_END);
                     return courseRepository.save(recordFound);
                 })
                 .map(courseMapper::toDTO)

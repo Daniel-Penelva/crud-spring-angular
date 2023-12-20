@@ -43,7 +43,7 @@ public class Course {
     //@Length(max = 10)
     //@Pattern(regexp = "Back-end|Front-end")
     @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)  // Se colocarmos a anotação @enumerated (enumtype.ordinal) no campo Enum, o JPA usará o valor enum.ordinal (por exemplo, 0 para BACKEND e 1 para FRONTEND, ou seja, vai salvar o indice do enumerador, como o BACKEND é o primeiro logo ele é zero 0) ao persistir em uma determinada entidade no banco de dados.
+    @Enumerated(EnumType.STRING)  // Analogamente, o JPA usará o valor Enum.name() ao armazenar uma entidade se anotarmos o campo enum com @Enumerated(EnumType.STRING).
     private Category category;
 
     @NotNull

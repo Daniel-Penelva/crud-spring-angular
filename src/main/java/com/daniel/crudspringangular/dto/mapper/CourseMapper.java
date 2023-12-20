@@ -28,7 +28,7 @@ public class CourseMapper {
             course.setId(courseDto.id());
         }
         course.setName(courseDto.name());
-        course.setCategory(Category.FRONTEND);
+        course.setCategory(Category.FRONT_END);
         course.setStatus("Ativo");
         return course;
     }
