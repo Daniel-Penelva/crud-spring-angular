@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.daniel.crudspringangular.model.Course;
+import com.daniel.crudspringangular.dto.CourseDto;
 import com.daniel.crudspringangular.service.CourseService;
 
 import jakarta.validation.Valid;
@@ -36,7 +36,7 @@ public class CourseController {
     // Listar curso - http://localhost:8080/api/courses
     // @RequestMapping(method = RequestMethod.GET)
     @GetMapping
-    public @ResponseBody List<Course> list() {
+    public @ResponseBody List<CourseDto> list() {
         return courseService.list();
     }
 
@@ -44,20 +44,20 @@ public class CourseController {
     // @RequestMapping(method = RequestMethod.POST)
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Course create(@RequestBody @Valid Course course) {
+    public CourseDto create(@RequestBody @Valid @NotNull CourseDto course) {
 
         return courseService.create(course);
     }
 
     // Buscar curso por id - http://localhost:8080/api/courses/{id}
     @GetMapping("/{id}")
-    public Course findById(@PathVariable @NotNull @Positive Long id) {
+    public CourseDto findById(@PathVariable @NotNull @Positive Long id) {
         return courseService.findById(id);
     }
 
     // Atualizar curso por id - http://localhost:8080/api/courses/{id}
     @PutMapping("/{id}")
-    public Course update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Course course) {
+    public CourseDto update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull CourseDto course) {
         return courseService.update(id, course);
     }
 
