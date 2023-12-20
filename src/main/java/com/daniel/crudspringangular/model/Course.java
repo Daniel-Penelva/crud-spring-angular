@@ -2,6 +2,8 @@ package com.daniel.crudspringangular.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,6 +15,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Length;
 
+import com.daniel.crudspringangular.enums.Category;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;   // Anotação do Lombok eliminando a necessidade de escrever métodos getters, setters
@@ -37,10 +40,11 @@ public class Course {
 
 
     @NotNull
-    @Length(max = 10)
-    @Pattern(regexp = "Back-end|Front-end")
-    @Column(length = 50, nullable = false)
-    private String category;
+    //@Length(max = 10)
+    //@Pattern(regexp = "Back-end|Front-end")
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)  // Se colocarmos a anotação @enumerated (enumtype.ordinal) no campo Enum, o JPA usará o valor enum.ordinal (por exemplo, 0 para BACKEND e 1 para FRONTEND, ou seja, vai salvar o indice do enumerador, como o BACKEND é o primeiro logo ele é zero 0) ao persistir em uma determinada entidade no banco de dados.
+    private Category category;
 
     @NotNull
     @Length(max = 10)

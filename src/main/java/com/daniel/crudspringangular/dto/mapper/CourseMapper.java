@@ -3,6 +3,7 @@ package com.daniel.crudspringangular.dto.mapper;
 import org.springframework.stereotype.Component;
 
 import com.daniel.crudspringangular.dto.CourseDto;
+import com.daniel.crudspringangular.enums.Category;
 import com.daniel.crudspringangular.model.Course;
 
 @Component
@@ -12,7 +13,7 @@ public class CourseMapper {
         if(course == null){
             return null;
         }
-        return new CourseDto(course.getId(), course.getName(), course.getCategory());
+        return new CourseDto(course.getId(), course.getName(), "Front-end");
     }
 
     public Course toEntity(CourseDto courseDto) {
@@ -27,7 +28,7 @@ public class CourseMapper {
             course.setId(courseDto.id());
         }
         course.setName(courseDto.name());
-        course.setCategory(courseDto.category());
+        course.setCategory(Category.FRONTEND);
         course.setStatus("Ativo");
         return course;
     }
