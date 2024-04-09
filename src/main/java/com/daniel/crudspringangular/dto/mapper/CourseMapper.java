@@ -1,8 +1,12 @@
 package com.daniel.crudspringangular.dto.mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import com.daniel.crudspringangular.dto.CourseDto;
+import com.daniel.crudspringangular.dto.LessonDto;
 import com.daniel.crudspringangular.enums.Category;
 import com.daniel.crudspringangular.model.Course;
 
@@ -10,15 +14,20 @@ import com.daniel.crudspringangular.model.Course;
 public class CourseMapper {
 
     public CourseDto toDTO(Course course) {
-        if(course == null){
+        if (course == null) {
             return null;
         }
-        return new CourseDto(course.getId(), course.getName(), course.getCategory().getValue(), course.getLessons());
+        List<LessonDto> lessons = course.getLessons()
+                .stream()
+                .map(lesson -> new LessonDto(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl()))
+                .collect(Collectors.toList());
+
+        return new CourseDto(course.getId(), course.getName(), course.getCategory().getValue(), lessons);
     }
 
     public Course toEntity(CourseDto courseDto) {
 
-        if(courseDto == null){
+        if (courseDto == null) {
             return null;
         }
 
@@ -32,8 +41,8 @@ public class CourseMapper {
         return course;
     }
 
-    public Category convertCategoryValue(String value){
-        if(value == null){
+    public Category convertCategoryValue(String value) {
+        if (value == null) {
             return null;
         }
 
