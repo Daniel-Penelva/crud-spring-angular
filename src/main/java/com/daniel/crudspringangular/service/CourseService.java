@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import com.daniel.crudspringangular.dto.CourseDto;
 import com.daniel.crudspringangular.dto.mapper.CourseMapper;
 import com.daniel.crudspringangular.exception.RecordNotFoundException;
+import com.daniel.crudspringangular.model.Course;
 import com.daniel.crudspringangular.repository.CourseRepository;
 
 import jakarta.validation.Valid;
@@ -49,15 +50,16 @@ public class CourseService {
     }
 
     // Atualizar curso por id
-    public CourseDto update(@NotNull @Positive Long id, @Valid @NotNull CourseDto course) {
+    public CourseDto update(@NotNull @Positive Long id, @Valid @NotNull CourseDto courseDTO) {
         return courseRepository.findById(id)
                 .map(recordFound -> {
-                    recordFound.setName(course.name());
-                    recordFound.setCategory(courseMapper.convertCategoryValue(course.category()));
-                    return courseRepository.save(recordFound);
-                })
-                .map(courseMapper::toDTO)
-                .orElseThrow(() -> new RecordNotFoundException(id));
+                    Course course = courseMapper.toEntity(courseDTO);
+                    recordFound.setName(courseDTO.name());
+                    recordFound.setCategory(courseMapper.convertCategoryValue(courseDTO.category()));
+                    recordFound.getLessons().clear();                                                 // limpa a lista de lição que veio da base de dados (OBS. corresponde a mesma referência de objeto lesson da classe Course). Isso é necessário porque as lições atualizadas serão adicionadas posteriormente.
+                    course.getLessons().forEach(recordFound.getLessons()::add);                       // vai add cada lição que vier da tela (OBS. ou .getLessons().add(lesson)). Para cada lição no novo objeto Course, a lição é adicionada à lista de lições do curso existente.
+                    return courseMapper.toDTO(courseRepository.save(recordFound));                    // O curso salvo é convertido de volta para um CourseDto usando o courseMapper.
+                }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     // Deletar por id
