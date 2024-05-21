@@ -9,6 +9,7 @@ import com.daniel.crudspringangular.dto.CourseDto;
 import com.daniel.crudspringangular.dto.LessonDto;
 import com.daniel.crudspringangular.enums.Category;
 import com.daniel.crudspringangular.model.Course;
+import com.daniel.crudspringangular.model.Lesson;
 
 @Component
 public class CourseMapper {
@@ -38,6 +39,18 @@ public class CourseMapper {
         }
         course.setName(courseDto.name());
         course.setCategory(convertCategoryValue(courseDto.category()));
+
+        List<Lesson> lessons = courseDto.lessons().stream().map(lessonDTO -> {
+            var lesson = new Lesson();
+            lesson.setId(lessonDTO.id());
+            lesson.setName(lessonDTO.name());
+            lesson.setYoutubeUrl(lessonDTO.youtubeUrl());
+            lesson.setCourse(course);
+            return lesson;
+        }).collect(Collectors.toList());
+        
+        course.setLessons(lessons);
+
         return course;
     }
 
