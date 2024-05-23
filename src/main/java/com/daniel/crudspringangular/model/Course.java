@@ -20,9 +20,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data; // Anotação do Lombok eliminando a necessidade de escrever métodos getters, setters
 
@@ -55,6 +56,9 @@ public class Course {
     private Status status = Status.ACTIVE;
 
     // Relacionamento bidirecional - Um curso tem várias aulas
+    @NotNull
+    @NotEmpty             // significa que tem que haver pelo menos um elemento na Collection ou Map ou Array.
+    @Valid
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "course")
     //@JoinColumn(name = "course_id") - OBS. Em termo de perfomance não é aconselhavel usar mapeamento relacional dessa maneira. A maneira correta é utilizar a propriedade "mappedBy" e tornar o relacionamento bidirecional e nesse outro relacionamento, Lesson, utilizar a propriedade "@JoinColumn".
     private List<Lesson> lessons = new ArrayList<>();

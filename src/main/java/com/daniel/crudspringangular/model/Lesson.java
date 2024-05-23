@@ -1,5 +1,7 @@
 package com.daniel.crudspringangular.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
@@ -10,6 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Entity
@@ -20,13 +24,20 @@ public class Lesson {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
+    @NotBlank
+    @Length(min = 5, max = 100)
     @Column(length = 100, nullable = false)
     private String name;
 
+    @NotNull
+    @NotBlank
+    @Length(min = 5, max = 100)
     @Column(length = 100, nullable = false)
     private String youtubeUrl;
 
     // Relacionamento bidirecional - Muitas aulas para um curso
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "course_id", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)  // indica que a propriedade anotada só deve ser serializada para JSON e não deve ser desserializada a partir de JSON. Isso significa que a propriedade será ignorada durante a desserialização, mas será incluída quando o objeto for serializado em JSON
