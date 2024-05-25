@@ -43,9 +43,9 @@ public class CourseService {
     }
 
     // Listar curso com paginação
-    public CoursePageDTO listWithPagination() {
+    public CoursePageDTO listWithPagination(int page, int size) {
 
-        Page<Course> pageCourse = courseRepository.findAll(PageRequest.of(0, 10));
+        Page<Course> pageCourse = courseRepository.findAll(PageRequest.of(page, size));
         List<CourseDto> courses = pageCourse.get().map(courseMapper::toDTO).collect(Collectors.toList());
         return new CoursePageDTO(courses, pageCourse.getTotalElements(), pageCourse.getTotalPages());         
     }

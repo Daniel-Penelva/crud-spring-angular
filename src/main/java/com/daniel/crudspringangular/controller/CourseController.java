@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,8 +20,10 @@ import com.daniel.crudspringangular.dto.CoursePageDTO;
 import com.daniel.crudspringangular.service.CourseService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Validated
 @RestController
@@ -44,8 +47,8 @@ public class CourseController {
     // Listar curso - http://localhost:8080/api/courses
     // @RequestMapping(method = RequestMethod.GET)
     @GetMapping
-    public CoursePageDTO list() {
-        return courseService.listWithPagination();
+    public CoursePageDTO list(@RequestParam int page, @RequestParam int pageSize) {
+        return courseService.listWithPagination(page, pageSize);
     }
 
     // Criar curso - http://localhost:8080/api/courses
