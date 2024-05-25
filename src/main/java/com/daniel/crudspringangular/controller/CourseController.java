@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daniel.crudspringangular.dto.CourseDto;
+import com.daniel.crudspringangular.dto.CoursePageDTO;
 import com.daniel.crudspringangular.service.CourseService;
 
 import jakarta.validation.Valid;
@@ -34,9 +35,17 @@ public class CourseController {
 
     // Listar curso - http://localhost:8080/api/courses
     // @RequestMapping(method = RequestMethod.GET)
+    //@GetMapping
+    //public List<CourseDto> list() {
+    //    return courseService.list();
+    //}
+
+
+    // Listar curso - http://localhost:8080/api/courses
+    // @RequestMapping(method = RequestMethod.GET)
     @GetMapping
-    public List<CourseDto> list() {
-        return courseService.list();
+    public CoursePageDTO list() {
+        return courseService.listWithPagination();
     }
 
     // Criar curso - http://localhost:8080/api/courses

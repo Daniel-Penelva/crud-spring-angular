@@ -3,18 +3,23 @@ package com.daniel.crudspringangular.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import com.daniel.crudspringangular.dto.CourseDto;
+import com.daniel.crudspringangular.dto.CoursePageDTO;
 import com.daniel.crudspringangular.dto.mapper.CourseMapper;
 import com.daniel.crudspringangular.exception.RecordNotFoundException;
 import com.daniel.crudspringangular.model.Course;
 import com.daniel.crudspringangular.repository.CourseRepository;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Validated
 @Service
@@ -35,6 +40,14 @@ public class CourseService {
                 .stream()
                 .map(courseMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    // Listar curso com paginação
+    public CoursePageDTO listWithPagination() {
+
+        Page<Course> pageCourse = courseRepository.findAll(PageRequest.of(0, 10));
+        List<CourseDto> courses = pageCourse.get().map(courseMapper::toDTO).collect(Collectors.toList());
+        return new CoursePageDTO(courses, pageCourse.getTotalElements(), pageCourse.getTotalPages());         
     }
 
     // Buscar curso por id
