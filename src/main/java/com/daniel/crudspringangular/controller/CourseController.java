@@ -1,7 +1,5 @@
 package com.daniel.crudspringangular.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,7 +45,8 @@ public class CourseController {
     // Listar curso - http://localhost:8080/api/courses
     // @RequestMapping(method = RequestMethod.GET)
     @GetMapping
-    public CoursePageDTO list(@RequestParam int page, @RequestParam int pageSize) {
+    public CoursePageDTO list(@RequestParam(defaultValue = "0") @PositiveOrZero int page,
+            @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize) {
         return courseService.listWithPagination(page, pageSize);
     }
 

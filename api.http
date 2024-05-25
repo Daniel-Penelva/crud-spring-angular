@@ -1,10 +1,6 @@
 
 ### BUSCAR TODOS OS CURSOS
-GET http://localhost:8080/api/courses?page=0&pageSize=5
-### OBS. O exemplo acima deixa a aplicação vulnerável, já que possibilita o invasor manipular o número de páginas, por exemplo, o invasor pode 
-###      manipular um número muito grande de página (?page=0&pageSize=100) para obter todos os registros do banco de dados, ou o invasor pode
-###      manipular um número muito maior ainda de página e se você tem uma api com um número muito grande de registros no BD pode ser que nem 
-###      consiga retornar todos os registros, podendo fazer com que a API sobrecarregue e saia até do ar.
+GET http://localhost:8080/api/courses
 
 ### BUSCAR CURSO POR ID
 GET http://localhost:8080/api/courses/1

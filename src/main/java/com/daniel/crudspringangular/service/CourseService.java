@@ -43,7 +43,7 @@ public class CourseService {
     }
 
     // Listar curso com paginação
-    public CoursePageDTO listWithPagination(int page, int size) {
+    public CoursePageDTO listWithPagination(@PositiveOrZero int page, @Positive @Max(100) int size) {
 
         Page<Course> pageCourse = courseRepository.findAll(PageRequest.of(page, size));
         List<CourseDto> courses = pageCourse.get().map(courseMapper::toDTO).collect(Collectors.toList());
