@@ -3,12 +3,8 @@ services:
     image: 'mysql:latest'
     environment:
       - 'MYSQL_DATABASE=courses'
-      - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+      - 'MYSQL_PASSWORD=root'
+      - 'MYSQL_ROOT_PASSWORD=root'
+      - 'MYSQL_USER=root'
     ports:
-      - '3306'
-
-# Vale ressaltar que ao utilizar a dependência do 'docke-compose' a aplicação ao ser inicializada automaticamente inicializa a imagem do mysql 
-# do docker-compose, ou seja, não precisará fazer manualmente o comando 'docker-compose up' para criar a imagem. 
-# Outro detalhe que uma vez criado a imagem, não será possivel alterar, pelo menos em relação ao mysql, os valores da propriedades. 
+      - '3307:3306'

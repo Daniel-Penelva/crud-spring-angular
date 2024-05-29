@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import com.daniel.crudspringangular.enums.Category;
 import com.daniel.crudspringangular.model.Course;
@@ -19,6 +20,7 @@ public class CrudSpringAngularApplication {
 
 	// Para testar a lista de cursos
 	@Bean
+	@Profile("dev")
 	CommandLineRunner initDataBase(CourseRepository courseRepository){
 		return args ->{
 			courseRepository.deleteAll();
